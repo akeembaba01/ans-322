@@ -1034,7 +1034,7 @@
                     question: "What is a 'Dominant Trait'?",
                     options: {
                         A: "A trait that is only expressed with two copies of the allele.",
-                        B: "A trait that is expressed in an organism even with one copy of the allele.",
+                        B: "A trait that is expressed in an organism even when only one copy of the allele.",
                         C: "A trait that is not heritable.",
                         D: "A trait that is not observable."
                     },
@@ -1574,6 +1574,7 @@
             function calculateScore() {
                 let correctAnswers = 0;
                 let incorrectAnswers = 0;
+                let answeredQuestions = 0;
                 
                 quizData.forEach((q, index) => {
                     const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
@@ -1583,6 +1584,7 @@
                     questionElement.classList.remove('correct', 'incorrect');
                     
                     if (selectedOption) {
+                        answeredQuestions++;
                         if (selectedOption.value === q.answer) {
                             correctAnswers++;
                             questionElement.classList.add('correct');
@@ -1591,17 +1593,21 @@
                             questionElement.classList.add('incorrect');
                         }
                     } else {
-                        // If no option is selected, it's considered incorrect for scoring
-                        incorrectAnswers++;
-                        questionElement.classList.add('incorrect');
+                         // Only mark as incorrect if the question was attempted
+                         // For this version, we'll only count correctly vs incorrectly answered questions
                     }
                 });
+
+                // Get all radio buttons to check if any were selected
+                const allRadioButtons = document.querySelectorAll('input[type="radio"]:checked');
+                const totalAnswered = allRadioButtons.length;
 
                 scoreResults.innerHTML = `
                     <p class="text-xl font-bold mb-2">Quiz Results</p>
                     <p>Correct Answers: <span class="text-green-600 font-bold">${correctAnswers}</span></p>
                     <p>Incorrect Answers: <span class="text-red-600 font-bold">${incorrectAnswers}</span></p>
-                    <p class="mt-4">You can reattempt the quiz at any time!</p>
+                    <p class="mt-4">You have attempted ${totalAnswered} questions.</p>
+                    <p class="mt-2">You can reattempt the quiz at any time!</p>
                 `;
                 scoreResults.classList.remove('hidden');
 
