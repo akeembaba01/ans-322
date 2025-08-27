@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANS322: Animal Breeding and Genetics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* A light green background */
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 1.5rem;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            border: 1px solid #dcfce7; /* Light green border */
+            border-radius: 0.75rem;
+            background-color: #f0fdf4; /* A light green for question backgrounds */
+        }
+        .question-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #166534; /* A dark green for text */
+            margin-bottom: 1rem;
+        }
+        .answer-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            border: 1px solid #bbf7d0; /* A medium green border */
+        }
+        .answer-option:hover {
+            background-color: #dcfce7;
+            transform: translateY(-2px);
+        }
+        .answer-option input[type="radio"] {
+            margin-right: 0.75rem;
+            accent-color: #16a34a; /* A bright green accent */
+        }
+        .submit-btn {
+            background-color: #16a34a; /* Main button green */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+        .submit-btn:hover {
+            background-color: #15803d; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+        .score-box {
+            background-color: #bbf7d0; /* A light green score box */
+            color: #166534;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 2rem;
+        }
+        .correct {
+            border-color: #15803d;
+            background-color: #dcfce7;
+        }
+        .incorrect {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-green-50 text-green-900">
+
+    <div class="container py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-green-900 mb-2">ANS322</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-green-800">Animal Breeding and Genetics</h2>
+            <p class="mt-4 text-lg text-green-700 max-w-2xl mx-auto">
+                Welcome to the ANS322 course website for the Federal University of Agriculture Zuru. Use the resources here to enhance your understanding of Animal Breeding and Genetics.
+            </p>
+            <div class="mt-6 text-base text-green-600">
+                <p>Course Instructors:</p>
+                <p><strong>Dr. Akeem Sikiru</strong> & <strong>Mr. Ahmed Garba</strong></p>
+            </div>
+        </header>
+
+        <!-- Course Content Section -->
+        <div class="bg-white p-6 md:p-10 rounded-xl shadow-lg mb-8">
+            <h3 class="text-2xl font-bold mb-4 text-green-800">Module 1: Introduction to Animal Genetics and Breeding</h3>
+            <p class="text-green-700 leading-relaxed">
+                Informally, the field of animal breeding began when domestication of animals was initiated by humans. During this period, the key criteria for choosing species of animals to domesticate included traits related to temperament (docility of the animals), ability to produce foods which are basically milk, meat, and fibre; and reproductive performance of the animals when they were in captivity. Animals that did not reproduce, were not relatively docile, and of course cannot produce products that humans needed to survive themselves as a result such animals were culled.
+            </p>
+            <p class="text-green-700 leading-relaxed mt-4">
+                The informal process of animal breeding described above which was basically domestication was stepped up formally by Robert Bakewell who introduce the process of breeding whereby animals that has traits of producing human foods from his stock were used to cross animals of other people. This was built upon with other developments including present breeding activities involving modern-day animal breeding practices such as highly sophisticated statistical models, use of powerful computational resources, and economic modelling all developed and supported by global community of public and privately supported scientists from across disciplines.
+            </p>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container">
+            <h3 class="text-2xl font-bold text-center mb-6 text-green-800">Practice Quiz: Mendelian Genetics</h3>
+            
+            <form id="quiz-form">
+                <!-- Quiz questions will be dynamically inserted here by JavaScript -->
+            </form>
+
+            <div class="text-center mt-8">
+                <button id="submit-btn" type="button" class="submit-btn">Submit Quiz</button>
+            </div>
+            
+            <div id="score-results" class="hidden mt-8">
+                <!-- Score results will be displayed here -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // The data structure for the quiz questions
+            const quizData = [
+                {
+                    question: "What is the primary historical goal of animal breeding?",
+                    options: {
+                        A: "To enhance temperament in domesticated animals.",
+                        B: "To predict the genetic merit of individuals.",
+                        C: "To provide products for human needs.",
+                        D: "To maintain genetic diversity in livestock."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "Who is considered to have formally stepped up the process of breeding through selective crossing?",
+                    options: {
+                        A: "Gregor Mendel",
+                        B: "Watson and Crick",
+                        C: "Robert Bakewell",
+                        D: "Charles Darwin"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the study of genes, genetic variation, and heredity in organisms called?",
+                    options: {
+                        A: "Quantitative Genetics",
+                        B: "Genomics",
+                        C: "Molecular Biology",
+                        D: "Genetics"
+                    },
+                    answer: "D"
+                },
+                {
+                    question: "Which of Mendel's principles states that allele pairs separate during gamete formation?",
+                    options: {
+                        A: "Independent Assortment",
+                        B: "Segregation",
+                        C: "Dominance",
+                        D: "Genetic Linkage"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a diagram used to predict the probability of genotypes in offspring?",
+                    options: {
+                        A: "Pedigree Chart",
+                        B: "DNA Fingerprint",
+                        C: "Punnett Square",
+                        D: "Chromosomal Map"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the term for the observable physical characteristics of an organism?",
+                    options: {
+                        A: "Genotype",
+                        B: "Allele",
+                        C: "Phenotype",
+                        D: "Locus"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "A trait that is only expressed when two copies of the recessive allele are present is called a:",
+                    options: {
+                        A: "Dominant Trait",
+                        B: "Recessive Trait",
+                        C: "Polygenic Trait",
+                        D: "Quantitative Trait"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which type of genetics deals with traits showing continuous variation influenced by multiple genes?",
+                    options: {
+                        A: "Mendelian Genetics",
+                        B: "Quantitative Genetics",
+                        C: "Molecular Genetics",
+                        D: "Population Genetics"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the difference between a gene and an allele?",
+                    options: {
+                        A: "A gene is a unit of heredity, while an allele is a version of a gene.",
+                        B: "A gene determines phenotype, while an allele determines genotype.",
+                        C: "A gene is always dominant, while an allele can be dominant or recessive.",
+                        D: "They are the same thing."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What is the process of intentionally choosing specific animals for reproduction based on desirable traits?",
+                    options: {
+                        A: "Pedigree Analysis",
+                        B: "Genomic Selection",
+                        C: "Selective Breeding",
+                        D: "Domestication"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "Which principle states that alleles of different genes assort independently during gamete formation?",
+                    options: {
+                        A: "Segregation",
+                        B: "Independent Assortment",
+                        C: "Dominance",
+                        D: "Co-dominance"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the genetic makeup of an organism, referring to the specific alleles it possesses?",
+                    options: {
+                        A: "Phenotype",
+                        B: "Genotype",
+                        C: "Locus",
+                        D: "Trait"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a breeding strategy that uses genetic markers linked to desirable genes?",
+                    options: {
+                        A: "Genomic Selection",
+                        B: "Marker-Assisted Selection",
+                        C: "Pedigree Analysis",
+                        D: "Hybridization"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "The study of family history to identify inheritance patterns is called:",
+                    options: {
+                        A: "Genomic Selection",
+                        B: "Marker-Assisted Selection",
+                        C: "Quantitative Genetics",
+                        D: "Pedigree Analysis"
+                    },
+                    answer: "D"
+                },
+                {
+                    question: "Traits that directly impact profitability in livestock are known as:",
+                    options: {
+                        A: "Qualitative Traits",
+                        B: "Economic Traits",
+                        C: "Simple Traits",
+                        D: "Mendelian Traits"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "In the context of the rabbit example, if a red rabbit (RR) is crossed with a white rabbit (rr), what will the genotype of the offspring be?",
+                    options: {
+                        A: "RR",
+                        B: "rr",
+                        C: "Rr",
+                        D: "Cannot be determined"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the term for having two identical alleles for a trait?",
+                    options: {
+                        A: "Heterozygous",
+                        B: "Dominant",
+                        C: "Homozygous",
+                        D: "Recessive"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the term for having two different alleles for a trait?",
+                    options: {
+                        A: "Homozygous",
+                        B: "Heterozygous",
+                        C: "Dominant",
+                        D: "Recessive"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What kind of traits are influenced by multiple genes and environmental factors?",
+                    options: {
+                        A: "Single-gene traits",
+                        B: "Mendelian traits",
+                        C: "Polygenic traits",
+                        D: "Dominant traits"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the key difference between Mendelian genetics and quantitative genetics?",
+                    options: {
+                        A: "Mendelian genetics studies continuous traits, while quantitative genetics studies single-gene traits.",
+                        B: "Mendelian genetics focuses on single genes, while quantitative genetics deals with multiple genes and environmental factors.",
+                        C: "Mendelian genetics is used for plants, while quantitative genetics is used for animals.",
+                        D: "There is no difference; they are the same field of study."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the purpose of a Punnett Square?",
+                    options: {
+                        A: "To calculate the probability of a mutation.",
+                        B: "To visualize the physical traits of an organism.",
+                        C: "To predict the genotypes and phenotypes of offspring.",
+                        D: "To identify the location of a gene on a chromosome."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the definition of a 'trait' in genetics?",
+                    options: {
+                        A: "A unit of heredity.",
+                        B: "The genetic makeup of an organism.",
+                        C: "A distinct variant of a phenotypic characteristic.",
+                        D: "A diagram used to predict genetic crosses."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "Which field incorporates statistical models and computational resources into animal breeding?",
+                    options: {
+                        A: "Traditional Breeding",
+                        B: "Modern Breeding",
+                        C: "Informal Breeding",
+                        D: "Mendelian Breeding"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "The process by which wild animals are adapted to live in association with humans is called:",
+                    options: {
+                        A: "Selective Breeding",
+                        B: "Genomic Selection",
+                        C: "Domestication",
+                        D: "Pedigree Analysis"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What does the principle of segregation ensure during gamete formation?",
+                    options: {
+                        A: "Each gamete receives two alleles for each gene.",
+                        B: "Each gamete receives only one allele for each gene.",
+                        C: "Alleles of different genes stay together.",
+                        D: "Dominant traits are always expressed."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "In the cattle example, what is the phenotype of a cow with the genotype Bb, where black (B) is dominant?",
+                    options: {
+                        A: "White coat",
+                        B: "Black coat",
+                        C: "Spotted coat",
+                        D: "Cannot be determined"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the primary benefit of Marker-Assisted Selection?",
+                    options: {
+                        A: "It eliminates the need for breeding.",
+                        B: "It uses genetic markers to identify superior animals.",
+                        C: "It is a form of informal breeding.",
+                        D: "It only works for quantitative traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the difference between genotype and phenotype?",
+                    options: {
+                        A: "Genotype is the observable trait, phenotype is the genetic makeup.",
+                        B: "Genotype is the genetic makeup, phenotype is the observable trait.",
+                        C: "They are the same thing.",
+                        D: "Genotype only applies to dominant traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is an example of an economic trait?",
+                    options: {
+                        A: "Coat color",
+                        B: "Temperament",
+                        C: "Milk yield",
+                        D: "Eye color"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the main purpose of pedigree analysis?",
+                    options: {
+                        A: "To predict future mutations.",
+                        B: "To study inheritance patterns in family history.",
+                        C: "To measure the genetic merit of an animal.",
+                        D: "To identify new species."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is NOT a goal of modern animal breeding?",
+                    options: {
+                        A: "Enhancing disease resistance.",
+                        B: "Improving growth rates.",
+                        C: "Reducing the use of statistical models.",
+                        D: "Increasing meat quality."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "The principles of Mendelian genetics are a foundation for understanding:",
+                    options: {
+                        A: "Only polygenic traits.",
+                        B: "Only complex traits.",
+                        C: "Single-gene traits.",
+                        D: "Environmental interactions."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the main purpose of a Punnett square?",
+                    options: {
+                        A: "To calculate the size of a gene.",
+                        B: "To predict the outcome of a genetic cross.",
+                        C: "To analyze a protein structure.",
+                        D: "To identify a DNA sequence."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "In the context of the provided text, what is the role of Robert Bakewell?",
+                    options: {
+                        A: "He discovered DNA structure.",
+                        B: "He formalized the process of selective breeding.",
+                        C: "He developed modern computational models.",
+                        D: "He was a pioneer in quantitative genetics."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does the principle of Independent Assortment apply to?",
+                    options: {
+                        A: "Alleles of the same gene.",
+                        B: "Alleles of different genes.",
+                        C: "Dominant alleles only.",
+                        D: "Recessive alleles only."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a major difference between poultry/pigs and cattle/sheep/goats mentioned in the text?",
+                    options: {
+                        A: "Poultry and pigs have simple digestive systems.",
+                        B: "Cattle and sheep are simpler to breed.",
+                        C: "Poultry and pigs are not subject to modern breeding practices.",
+                        D: "There is no significant difference."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What is the primary focus of Genomic Selection?",
+                    options: {
+                        A: "Using pedigree charts to predict traits.",
+                        B: "Using dense markers across the entire genome.",
+                        C: "Focusing on single-gene traits.",
+                        D: "Selecting animals based on their appearance."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "How do economic traits impact livestock?",
+                    options: {
+                        A: "They reduce the need for veterinary care.",
+                        B: "They directly impact profitability.",
+                        C: "They are not heritable.",
+                        D: "They are only relevant to small-scale farming."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the ultimate goal of continuously refining breeding goals?",
+                    options: {
+                        A: "To eliminate all genetic diversity.",
+                        B: "To stop the need for breeding.",
+                        C: "To ensure a steady supply of high-quality livestock.",
+                        D: "To focus solely on single-gene traits."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is a 'dominant allele'?",
+                    options: {
+                        A: "An allele that is only expressed when two copies are present.",
+                        B: "An allele that masks the expression of a recessive allele.",
+                        C: "An allele that has no effect on phenotype.",
+                        D: "An allele found in all organisms."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is an example of a Mendelian trait?",
+                    options: {
+                        A: "Growth rate",
+                        B: "Milk yield",
+                        C: "Coat color",
+                        D: "Disease resistance"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the relationship between an animal's performance and its genetics and environment?",
+                    options: {
+                        A: "Performance is solely determined by genetics.",
+                        B: "Performance is solely determined by environment.",
+                        C: "Performance is a complex relationship between genetics and environment.",
+                        D: "Genetics and environment are unrelated to performance."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the main focus of a breeder using Punnett squares?",
+                    options: {
+                        A: "Predicting the growth rate of offspring.",
+                        B: "Predicting the probability of offspring inheriting specific traits.",
+                        C: "Improving the diet of the animals.",
+                        D: "Developing new genetic models."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the difference between Marker-Assisted Selection and Genomic Selection?",
+                    options: {
+                        A: "MAS uses a few markers, while GS uses dense markers across the entire genome.",
+                        B: "MAS is for plants, while GS is for animals.",
+                        C: "MAS is a modern technique, while GS is an older one.",
+                        D: "They are the same."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What is the term for a gene's unit of heredity?",
+                    options: {
+                        A: "Genotype",
+                        B: "Allele",
+                        C: "Trait",
+                        D: "Gene"
+                    },
+                    answer: "D"
+                },
+                {
+                    question: "What is the term for the observable traits of an individual?",
+                    options: {
+                        A: "Genotype",
+                        B: "Phenotype",
+                        C: "Allele",
+                        D: "Locus"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which principle accounts for the random union of gametes?",
+                    options: {
+                        A: "Independent Assortment",
+                        B: "Segregation",
+                        C: "Punnett Square",
+                        D: "Dominance"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the term for a trait that is expressed in an organism when only one copy of the dominant allele is present?",
+                    options: {
+                        A: "Recessive Trait",
+                        B: "Dominant Trait",
+                        C: "Homozygous Trait",
+                        D: "Heterozygous Trait"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What are the two main types of genetic studies mentioned in the text?",
+                    options: {
+                        A: "Mendelian and Molecular Genetics",
+                        B: "Population and Quantitative Genetics",
+                        C: "Mendelian and Quantitative Genetics",
+                        D: "Genomics and Pedigree Analysis"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What does the term 'homozygous' mean?",
+                    options: {
+                        A: "Having two different alleles for a trait.",
+                        B: "Having two identical alleles for a trait.",
+                        C: "Having a dominant and a recessive allele.",
+                        D: "Having only one allele for a trait."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the role of pedigree analysis in breeding?",
+                    options: {
+                        A: "To create new breeds of animals.",
+                        B: "To study family history to identify inheritance patterns.",
+                        C: "To predict the exact phenotype of an offspring.",
+                        D: "To eliminate all recessive traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the name of the process by which animals are adapted to live with humans?",
+                    options: {
+                        A: "Selective Breeding",
+                        B: "Domestication",
+                        C: "Genetic Engineering",
+                        D: "Genomic Selection"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'recessive allele'?",
+                    options: {
+                        A: "An allele that masks a dominant allele.",
+                        B: "An allele that is always expressed.",
+                        C: "An allele that is only expressed when two copies are present.",
+                        D: "An allele that is not heritable."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is a 'gene'?",
+                    options: {
+                        A: "A diagram used in genetics.",
+                        B: "A unit of heredity.",
+                        C: "The physical characteristics of an organism.",
+                        D: "A type of statistical model."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is a key concept in Punnett squares?",
+                    options: {
+                        A: "Cloning",
+                        B: "Alleles",
+                        C: "Evolution",
+                        D: "Mutation"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does 'genotype' refer to?",
+                    options: {
+                        A: "The observable traits.",
+                        B: "The genetic makeup.",
+                        C: "The environmental factors.",
+                        D: "The family history."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "The overarching goal of livestock breeding is to enhance what?",
+                    options: {
+                        A: "Only physical size.",
+                        B: "Only meat quality.",
+                        C: "Economic and functional traits.",
+                        D: "Only reproductive performance."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the main difference between an allele and a gene?",
+                    options: {
+                        A: "A gene is a version of an allele.",
+                        B: "An allele is a version of a gene.",
+                        C: "They are the same thing.",
+                        D: "A gene is always dominant."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'phenotype'?",
+                    options: {
+                        A: "The genetic makeup.",
+                        B: "The observable characteristics.",
+                        C: "The specific alleles.",
+                        D: "The family history."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of these is NOT a key concept of Mendelian genetics?",
+                    options: {
+                        A: "Genes and Alleles",
+                        B: "Genotype vs. Phenotype",
+                        C: "Genomic Selection",
+                        D: "Segregation and Independent Assortment"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the main benefit of using Mendelian principles in breeding?",
+                    options: {
+                        A: "It guarantees a specific phenotype.",
+                        B: "It allows breeders to predict inheritance patterns.",
+                        C: "It makes breeding more informal.",
+                        D: "It eliminates all recessive traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the difference between a dominant and recessive trait?",
+                    options: {
+                        A: "Dominant is heritable, recessive is not.",
+                        B: "Dominant is always expressed, recessive is not.",
+                        C: "Dominant is expressed with one allele, recessive needs two.",
+                        D: "They are the same."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "How does modern breeding enhance genetic improvement?",
+                    options: {
+                        A: "By using only traditional methods.",
+                        B: "By relying on informal selection.",
+                        C: "By using advanced genomic tools and statistical models.",
+                        D: "By focusing on a single trait."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the branch of genetics that deals with traits showing continuous variation?",
+                    options: {
+                        A: "Mendelian Genetics",
+                        B: "Quantitative Genetics",
+                        C: "Population Genetics",
+                        D: "Molecular Genetics"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the role of a Punnett square in predicting outcomes?",
+                    options: {
+                        A: "It provides a definite outcome.",
+                        B: "It shows the probability of different genetic combinations.",
+                        C: "It only works for complex traits.",
+                        D: "It is not a reliable tool."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the term for a breeding strategy using dense markers across the entire genome?",
+                    options: {
+                        A: "Marker-Assisted Selection",
+                        B: "Pedigree Analysis",
+                        C: "Genomic Selection",
+                        D: "Mendelian Breeding"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What does the term 'Domestication' refer to?",
+                    options: {
+                        A: "The process of genetic modification.",
+                        B: "The process of adapting wild animals to live with humans.",
+                        C: "The process of selling animals for profit.",
+                        D: "The process of selective breeding."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Genotype'?",
+                    options: {
+                        A: "The physical appearance.",
+                        B: "The genetic makeup.",
+                        C: "The diet of an animal.",
+                        D: "The temperament of an animal."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the significance of the Punnett square?",
+                    options: {
+                        A: "It only works for dominant traits.",
+                        B: "It is a valuable tool for understanding Mendelian inheritance.",
+                        C: "It is an outdated concept.",
+                        D: "It only applies to plants."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the term for having two different alleles for a trait?",
+                    options: {
+                        A: "Homozygous",
+                        B: "Dominant",
+                        C: "Recessive",
+                        D: "Heterozygous"
+                    },
+                    answer: "D"
+                },
+                {
+                    question: "What is the primary purpose of genetic improvement in livestock?",
+                    options: {
+                        A: "To reduce overall productivity.",
+                        B: "To enhance traits to better serve agricultural and commercial needs.",
+                        C: "To solely increase the number of animals.",
+                        D: "To eliminate all genetic variation."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is a type of genetic selection mentioned in the text?",
+                    options: {
+                        A: "Genomic Selection",
+                        B: "Environmental Selection",
+                        C: "Behavioral Selection",
+                        D: "Phenotypic Selection"
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What does the text say about Mendelian genetics and complex traits?",
+                    options: {
+                        A: "It is irrelevant for complex traits.",
+                        B: "It provides a foundation for understanding them.",
+                        C: "It only applies to single-gene traits.",
+                        D: "It proves complex traits don't exist."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the role of Pedigree Analysis?",
+                    options: {
+                        A: "To predict the exact outcome of a cross.",
+                        B: "To identify new species.",
+                        C: "To study family history and inheritance patterns.",
+                        D: "To modify genes."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the meaning of 'Segregation' in Mendelian genetics?",
+                    options: {
+                        A: "Alleles of different genes stay together.",
+                        B: "Allele pairs separate during gamete formation.",
+                        C: "Genes are always linked on a chromosome.",
+                        D: "Dominant traits are always expressed."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of these is an 'Economic Trait'?",
+                    options: {
+                        A: "Hair color",
+                        B: "Temperament",
+                        C: "Growth rate",
+                        D: "Number of toes"
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the difference between an allele and a gene?",
+                    options: {
+                        A: "A gene is a unit of heredity; an allele is a form of that gene.",
+                        B: "An allele is a unit of heredity; a gene is a form of that allele.",
+                        C: "They are the same.",
+                        D: "Alleles are always dominant."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What is the purpose of the 'forged-line method'?",
+                    options: {
+                        A: "To predict outcomes for simple dominance patterns.",
+                        B: "To predict outcomes for complex inheritance patterns.",
+                        C: "To identify dominant alleles.",
+                        D: "To analyze a single gene."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does the term 'Phenotype' mean?",
+                    options: {
+                        A: "Genetic makeup of an organism.",
+                        B: "Observable characteristics of an organism.",
+                        C: "The position of a gene on a chromosome.",
+                        D: "The total number of genes in an organism."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "How does the text describe the initial process of animal breeding?",
+                    options: {
+                        A: "Highly sophisticated.",
+                        B: "Using advanced statistical models.",
+                        C: "Rudimentary selection based on simple traits.",
+                        D: "Primarily focused on genomics."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "Who is credited with formalizing animal breeding practices?",
+                    options: {
+                        A: "Gregor Mendel",
+                        B: "Robert Bakewell",
+                        C: "Charles Darwin",
+                        D: "Watson and Crick"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the main difference between a dominant and a recessive allele?",
+                    options: {
+                        A: "The dominant allele is always expressed.",
+                        B: "The recessive allele is always expressed.",
+                        C: "The dominant allele can mask the recessive allele.",
+                        D: "The recessive allele can mask the dominant allele."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the study of traits that show continuous variation?",
+                    options: {
+                        A: "Mendelian Genetics",
+                        B: "Quantitative Genetics",
+                        C: "Genomics",
+                        D: "Pedigree Analysis"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the purpose of the 'Punnett Square'?",
+                    options: {
+                        A: "To calculate an animal's age.",
+                        B: "To predict the probability of different genetic combinations.",
+                        C: "To determine an animal's diet.",
+                        D: "To study animal behavior."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is 'Genotype'?",
+                    options: {
+                        A: "The observable physical traits.",
+                        B: "The genetic makeup of an organism.",
+                        C: "The environmental influences.",
+                        D: "The history of a species."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Recessive Trait'?",
+                    options: {
+                        A: "A trait that is always expressed.",
+                        B: "A trait that masks another trait.",
+                        C: "A trait that is only expressed with two copies of the allele.",
+                        D: "A trait that is not heritable."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is 'Genomic Selection'?",
+                    options: {
+                        A: "A breeding strategy using a single marker.",
+                        B: "A breeding strategy using dense markers across the entire genome.",
+                        C: "A method for selecting animals based on appearance.",
+                        D: "A form of informal breeding."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of these is an 'Economic Trait'?",
+                    options: {
+                        A: "Number of spots on a coat.",
+                        B: "Temperament.",
+                        C: "Disease resistance.",
+                        D: "Eye color."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the relationship between an animal's genetics and its performance?",
+                    options: {
+                        A: "Performance is solely genetic.",
+                        B: "Performance is a complex relationship between genetics and environment.",
+                        C: "Performance is solely environmental.",
+                        D: "Genetics and environment are unrelated."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Dominant Trait'?",
+                    options: {
+                        A: "A trait that is only expressed with two copies of the allele.",
+                        B: "A trait that is expressed in an organism even with one copy of the allele.",
+                        C: "A trait that is not heritable.",
+                        D: "A trait that is not observable."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does 'Mendelian Genetics' study?",
+                    options: {
+                        A: "Complex traits influenced by multiple genes.",
+                        B: "Inheritance patterns of single genes with discrete effects.",
+                        C: "Continuous variation in traits.",
+                        D: "The genetic makeup of populations."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does 'Pedigree Analysis' involve?",
+                    options: {
+                        A: "Studying the family history to identify inheritance patterns.",
+                        B: "Using dense markers to predict genetic merit.",
+                        C: "Selecting animals for reproduction based on appearance.",
+                        D: "Creating new genes."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What is a 'Homozygous' individual?",
+                    options: {
+                        A: "One with two different alleles for a trait.",
+                        B: "One with two identical alleles for a trait.",
+                        C: "One with one allele for a trait.",
+                        D: "One with no alleles for a trait."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is an example of 'Selective Breeding'?",
+                    options: {
+                        A: "Allowing animals to mate randomly.",
+                        B: "Intentionally choosing animals with desirable traits for reproduction.",
+                        C: "Using a Punnett square for a single gene.",
+                        D: "Analyzing a pedigree chart."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the main goal of modern breeding practices?",
+                    options: {
+                        A: "To use only traditional methods.",
+                        B: "To produce animals that provide products for human needs sustainably.",
+                        C: "To reduce the use of statistical models.",
+                        D: "To eliminate all heritable traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Trait'?",
+                    options: {
+                        A: "A unit of heredity.",
+                        B: "The genetic makeup of an organism.",
+                        C: "A distinct variant of a phenotypic characteristic.",
+                        D: "A diagram used for breeding."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is 'Genomic Selection'?",
+                    options: {
+                        A: "A breeding strategy using a single marker.",
+                        B: "A breeding strategy using dense markers across the entire genome.",
+                        C: "A method for selecting animals based on appearance.",
+                        D: "A form of informal breeding."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the primary benefit of Marker-Assisted Selection?",
+                    options: {
+                        A: "It eliminates the need for breeding.",
+                        B: "It uses genetic markers to identify superior animals.",
+                        C: "It is a form of informal breeding.",
+                        D: "It only works for quantitative traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the difference between a dominant and recessive allele?",
+                    options: {
+                        A: "A dominant allele is always expressed, while a recessive allele is not.",
+                        B: "A dominant allele can mask a recessive allele, which is only expressed in a homozygous state.",
+                        C: "There is no difference.",
+                        D: "A recessive allele is always expressed, while a dominant allele is not."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the purpose of the Punnett square in the context of the rabbit example?",
+                    options: {
+                        A: "To calculate the size of the offspring.",
+                        B: "To predict the probability of different coat colors in the offspring.",
+                        C: "To determine the age of the rabbits.",
+                        D: "To find out where the rabbits came from."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of these is NOT an economic trait?",
+                    options: {
+                        A: "Milk yield",
+                        B: "Meat quality",
+                        C: "Growth rate",
+                        D: "Eye color"
+                    },
+                    answer: "D"
+                },
+                {
+                    question: "What is the study of family history to identify inheritance patterns?",
+                    options: {
+                        A: "Genomic Selection",
+                        B: "Pedigree Analysis",
+                        C: "Marker-Assisted Selection",
+                        D: "Quantitative Genetics"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does the text say about the goals of ancient animal breeders?",
+                    options: {
+                        A: "They are completely different from modern goals.",
+                        B: "They are not terribly different from modern goals.",
+                        C: "They were focused on aesthetics, not products.",
+                        D: "They had no specific goals."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the relationship between an animal's performance and its genetics and environment?",
+                    options: {
+                        A: "Performance is solely determined by genetics.",
+                        B: "Performance is solely determined by environment.",
+                        C: "Performance is a complex relationship between genetics and environment.",
+                        D: "Genetics and environment are unrelated to performance."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "Which principle of Mendel's states that alleles for different genes separate independently?",
+                    options: {
+                        A: "Law of Segregation",
+                        B: "Law of Independent Assortment",
+                        C: "Law of Dominance",
+                        D: "Law of Recessiveness"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Genotype'?",
+                    options: {
+                        A: "The observable physical characteristics.",
+                        B: "The specific alleles an organism possesses.",
+                        C: "The environmental factors influencing a trait.",
+                        D: "The evolutionary history of an organism."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Phenotype'?",
+                    options: {
+                        A: "The genetic makeup of an organism.",
+                        B: "The observable physical characteristics of an organism.",
+                        C: "The specific alleles for a gene.",
+                        D: "The position of a gene on a chromosome."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "How did Robert Bakewell formalize animal breeding?",
+                    options: {
+                        A: "By discovering genes.",
+                        B: "By introducing the process of selective crossing.",
+                        C: "By developing Punnett squares.",
+                        D: "By using genomic data."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the term for a trait that is only expressed when two copies of a specific allele are present?",
+                    options: {
+                        A: "Dominant",
+                        B: "Recessive",
+                        C: "Co-dominant",
+                        D: "Incomplete Dominant"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the main purpose of a Punnett square?",
+                    options: {
+                        A: "To predict the diet of offspring.",
+                        B: "To predict the probability of genetic combinations.",
+                        C: "To identify the age of an animal.",
+                        D: "To create new alleles."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is 'Quantitative Genetics'?",
+                    options: {
+                        A: "The study of traits influenced by a single gene.",
+                        B: "The study of traits influenced by multiple genes and environmental factors.",
+                        C: "The study of traits that are not heritable.",
+                        D: "The study of traits that are only dominant."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is an 'Economic Trait'?",
+                    options: {
+                        A: "Eye color.",
+                        B: "Coat color.",
+                        C: "Growth rate.",
+                        D: "Number of tails."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the process of 'Domestication'?",
+                    options: {
+                        A: "Adapting wild animals to a human environment.",
+                        B: "Modifying an animal's DNA.",
+                        C: "Selling an animal to a family.",
+                        D: "Teaching an animal to perform tricks."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What does the term 'Segregation' mean in Mendelian genetics?",
+                    options: {
+                        A: "Alleles stay together.",
+                        B: "Alleles of different genes separate randomly.",
+                        C: "Allele pairs separate during gamete formation.",
+                        D: "Genes on the same chromosome are always inherited together."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is the role of Mendelian principles in improving economic traits?",
+                    options: {
+                        A: "They are not useful for economic traits.",
+                        B: "They allow breeders to predict the inheritance of desirable traits.",
+                        C: "They only work for simple traits.",
+                        D: "They only work for recessive traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the definition of a 'Gene'?",
+                    options: {
+                        A: "The physical characteristics of an organism.",
+                        B: "A unit of heredity.",
+                        C: "A diagram used to predict offspring.",
+                        D: "A type of environmental factor."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is 'Genomic Selection'?",
+                    options: {
+                        A: "A breeding strategy using a single marker.",
+                        B: "A breeding strategy using dense markers across the entire genome.",
+                        C: "A method of selecting animals based on temperament.",
+                        D: "A process of domesticating animals."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Phenotype'?",
+                    options: {
+                        A: "The genetic makeup of an organism.",
+                        B: "The observable characteristics of an organism.",
+                        C: "The specific alleles for a gene.",
+                        D: "The location of a gene on a chromosome."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the term for a trait that is expressed in an organism even when only one copy of the dominant allele is present?",
+                    options: {
+                        A: "Recessive Trait",
+                        B: "Dominant Trait",
+                        C: "Homozygous Trait",
+                        D: "Heterozygous Trait"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the difference between a gene and an allele?",
+                    options: {
+                        A: "A gene is a unit of heredity, while an allele is a version of a gene.",
+                        B: "A gene determines phenotype, while an allele determines genotype.",
+                        C: "A gene is always dominant, while an allele can be dominant or recessive.",
+                        D: "They are the same thing."
+                    },
+                    answer: "A"
+                },
+                {
+                    question: "What is the role of Pedigree Analysis?",
+                    options: {
+                        A: "To create new breeds of animals.",
+                        B: "To study family history to identify inheritance patterns.",
+                        C: "To predict the exact phenotype of an offspring.",
+                        D: "To eliminate all recessive traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Recessive Allele'?",
+                    options: {
+                        A: "An allele that masks a dominant allele.",
+                        B: "An allele that is always expressed.",
+                        C: "An allele that is only expressed when two copies are present.",
+                        D: "An allele that is not heritable."
+                    },
+                    answer: "C"
+                },
+                {
+                    question: "What is 'Selective Breeding'?",
+                    options: {
+                        A: "The process of allowing animals to mate randomly.",
+                        B: "The process of intentionally choosing animals for reproduction based on desirable traits.",
+                        C: "The study of inheritance patterns in family history.",
+                        D: "The use of computational models."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the primary historical goal of animal breeding?",
+                    options: {
+                        A: "To enhance temperament in domesticated animals.",
+                        B: "To provide products for human needs.",
+                        C: "To predict the genetic merit of individuals.",
+                        D: "To maintain genetic diversity in livestock."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does the principle of Independent Assortment state?",
+                    options: {
+                        A: "Alleles for the same gene separate.",
+                        B: "Alleles for different genes assort independently.",
+                        C: "Dominant alleles are always expressed.",
+                        D: "Recessive alleles are always masked."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Homozygous' genotype?",
+                    options: {
+                        A: "One with two different alleles for a trait.",
+                        B: "One with two identical alleles for a trait.",
+                        C: "One with a dominant and a recessive allele.",
+                        D: "One with no alleles for a trait."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of these is a key concept of Mendelian genetics?",
+                    options: {
+                        A: "Genomic Selection",
+                        B: "Punnett Squares",
+                        C: "Marker-Assisted Selection",
+                        D: "Quantitative Genetics"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Dominant Trait'?",
+                    options: {
+                        A: "A trait that is only expressed when two copies of the allele are present.",
+                        B: "A trait that is expressed in an organism even when only one copy of the dominant allele is present.",
+                        C: "A trait that is not heritable.",
+                        D: "A trait that is only expressed in a heterozygous state."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the field of 'Quantitative Genetics'?",
+                    options: {
+                        A: "The study of traits influenced by a single gene.",
+                        B: "The study of traits showing continuous variation and influenced by multiple genes.",
+                        C: "The study of heritable traits only.",
+                        D: "The study of non-heritable traits."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the significance of the Punnett square in the context of the cattle example?",
+                    options: {
+                        A: "It proves a trait is recessive.",
+                        B: "It predicts the likelihood of offspring being black or white.",
+                        C: "It determines the exact number of offspring.",
+                        D: "It shows the dominant allele is always inherited."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What does the text say about the goals of modern animal breeding?",
+                    options: {
+                        A: "They are completely different from ancient goals.",
+                        B: "They are not terribly different from ancient goals.",
+                        C: "They are only focused on physical appearance.",
+                        D: "They are focused on eliminating all genetic diversity."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the relationship between an animal's performance and its genetics and environment?",
+                    options: {
+                        A: "It's solely determined by genetics.",
+                        B: "It's a complex relationship between genetics and environment.",
+                        C: "It's solely determined by environment.",
+                        D: "There is no relationship."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the term for a unit of heredity?",
+                    options: {
+                        A: "Allele",
+                        B: "Gene",
+                        C: "Trait",
+                        D: "Phenotype"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Genotype'?",
+                    options: {
+                        A: "The observable characteristics.",
+                        B: "The specific alleles an organism possesses.",
+                        C: "The environmental influences.",
+                        D: "The family history."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is a 'Phenotype'?",
+                    options: {
+                        A: "The genetic makeup.",
+                        B: "The physical or biochemical characteristics.",
+                        C: "The specific alleles.",
+                        D: "The location of a gene."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "Which of the following is a type of genetic selection mentioned in the text?",
+                    options: {
+                        A: "Environmental Selection",
+                        B: "Genomic Selection",
+                        C: "Behavioral Selection",
+                        D: "Random Selection"
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the purpose of Marker-Assisted Selection?",
+                    options: {
+                        A: "To use a single marker to identify an animal's parentage.",
+                        B: "To use genetic markers to identify superior animals for breeding.",
+                        C: "To determine an animal's age.",
+                        D: "To identify new species."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is the definition of a 'Trait'?",
+                    options: {
+                        A: "The genetic makeup of an organism.",
+                        B: "A distinct variant of a phenotypic characteristic.",
+                        C: "A unit of heredity.",
+                        D: "A diagram used in genetics."
+                    },
+                    answer: "B"
+                },
+                {
+                    question: "What is 'Genomic Selection'?",
+                    options: {
+                        A: "A breeding strategy using a single marker.",
+                        B: "A breeding strategy using dense markers across the entire genome.",
+                        C: "A method of selecting animals based on temperament.",
+                        D: "A process of domesticating animals."
+                    },
+                    answer: "B"
+                }
+            ];
+
+            const quizForm = document.getElementById('quiz-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const scoreResults = document.getElementById('score-results');
+
+            // Function to shuffle an array
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            // Function to generate and render the quiz questions
+            function renderQuiz() {
+                quizForm.innerHTML = ''; // Clear previous questions
+                shuffleArray(quizData); // Shuffle the questions
+                const displayQuestions = quizData.slice(0, 120); // Select the first 120 questions
+                
+                displayQuestions.forEach((q, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.classList.add('quiz-question', 'rounded-xl', 'shadow-md');
+                    questionDiv.innerHTML = `
+                        <p class="question-text text-xl">Question ${index + 1}: ${q.question}</p>
+                        <div class="options mt-4">
+                            ${Object.keys(q.options).map(key => `
+                                <div class="answer-option">
+                                    <label class="option-label">
+                                        <input type="radio" name="question-${index}" value="${key}" class="w-5 h-5">
+                                        <span class="ml-3 text-lg">${key}. ${q.options[key]}</span>
+                                    </label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    quizForm.appendChild(questionDiv);
+                });
+            }
+
+            // Function to calculate and display the score
+            function calculateScore() {
+                let correctAnswers = 0;
+                let incorrectAnswers = 0;
+                
+                quizData.forEach((q, index) => {
+                    const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                    const questionElement = document.querySelector(`.quiz-question:nth-of-type(${index + 1})`);
+
+                    // Remove previous styling
+                    questionElement.classList.remove('correct', 'incorrect');
+                    
+                    if (selectedOption) {
+                        if (selectedOption.value === q.answer) {
+                            correctAnswers++;
+                            questionElement.classList.add('correct');
+                        } else {
+                            incorrectAnswers++;
+                            questionElement.classList.add('incorrect');
+                        }
+                    } else {
+                        // If no option is selected, it's considered incorrect for scoring
+                        incorrectAnswers++;
+                        questionElement.classList.add('incorrect');
+                    }
+                });
+
+                scoreResults.innerHTML = `
+                    <p class="text-xl font-bold mb-2">Quiz Results</p>
+                    <p>Correct Answers: <span class="text-green-600 font-bold">${correctAnswers}</span></p>
+                    <p>Incorrect Answers: <span class="text-red-600 font-bold">${incorrectAnswers}</span></p>
+                    <p class="mt-4">You can reattempt the quiz at any time!</p>
+                `;
+                scoreResults.classList.remove('hidden');
+
+                // Scroll to the score results
+                scoreResults.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Event listener for the submit button
+            submitBtn.addEventListener('click', calculateScore);
+
+            // Initial render of the quiz
+            renderQuiz();
+
+        });
+    </script>
+</body>
+</html>
