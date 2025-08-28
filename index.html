@@ -1574,33 +1574,31 @@
             function calculateScore() {
                 let correctAnswers = 0;
                 let incorrectAnswers = 0;
-                let answeredQuestions = 0;
                 
-                quizData.forEach((q, index) => {
-                    const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
-                    const questionElement = document.querySelector(`.quiz-question:nth-of-type(${index + 1})`);
-
-                    // Remove previous styling
-                    questionElement.classList.remove('correct', 'incorrect');
+                // Use a loop to iterate through the rendered questions
+                const renderedQuestions = quizForm.querySelectorAll('.quiz-question');
+                renderedQuestions.forEach((qElement, index) => {
+                    const selectedOption = qElement.querySelector(`input[name="question-${index}"]:checked`);
                     
+                    // Reset styling before re-scoring
+                    qElement.classList.remove('correct', 'incorrect');
+
                     if (selectedOption) {
-                        answeredQuestions++;
-                        if (selectedOption.value === q.answer) {
+                        // Find the corresponding question in quizData using the index
+                        const questionData = quizData[index];
+                        if (selectedOption.value === questionData.answer) {
                             correctAnswers++;
-                            questionElement.classList.add('correct');
+                            qElement.classList.add('correct');
                         } else {
                             incorrectAnswers++;
-                            questionElement.classList.add('incorrect');
+                            qElement.classList.add('incorrect');
                         }
                     } else {
-                         // Only mark as incorrect if the question was attempted
-                         // For this version, we'll only count correctly vs incorrectly answered questions
+                         // Unanswered questions are not counted as incorrect to give more useful feedback.
                     }
                 });
-
-                // Get all radio buttons to check if any were selected
-                const allRadioButtons = document.querySelectorAll('input[type="radio"]:checked');
-                const totalAnswered = allRadioButtons.length;
+                
+                const totalAnswered = correctAnswers + incorrectAnswers;
 
                 scoreResults.innerHTML = `
                     <p class="text-xl font-bold mb-2">Quiz Results</p>
